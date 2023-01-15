@@ -2,7 +2,17 @@
 
 # TODO
 
-- `punch` add README.md, Dockerfile into assets/starter
+git log --pretty=oneline
+git reset --soft HEAD~n
+git reset --soft HEAD^1
+
+- `punch`
+  - [ ] remove `punch.yml` from git repo (git rm)
+  - [ ] add README.md, Dockerfile into assets/starter
+  - [ ] check `PunchDomain` for `require "domain/sentries"`
+  - [ ] check `PunchDomain` for `config.rb` for `include domain::Plugins`
+  - [ ] generated test fails "not implemented yet"
+
 
 - [ ] develop orders domain DSL
 - [ ] develop orders domain

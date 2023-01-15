@@ -1,6 +1,6 @@
 lib: lib
 test: test
-domain: ''
+domain: orders
 sentries: sentries
 entities: entities
 services: services
