@@ -4,14 +4,8 @@ require_relative "../../test_helper"
 
 describe MustbeOrderArticles do
   # @todo provide valid and wrong samples here
-  let(:proper) {[
-    { "id" => "", "title" => "", "description" => "", "price" => 9.99 },
-    { "title" => "", "description" => "", "price" => 9.99 },
-  ]}
-  let(:faulty) {[
-    nil, 1, "string", Object.new,
-    [{ "id" => "", "title" => "", "description" => ""}]
-  ]}
+  let(:proper) { [{ "article_id" => "", "quantity" => 1, "price" => 9.99 }]}
+  let(:faulty) { [nil, 1, "string", Object.new, []] }
 
   it {
     assert_equal proper, MustbeOrderArticles.(proper)

@@ -5,8 +5,8 @@ include Orders::Services
 
 describe UserQueryArticles do
   let(:service) { UserQueryArticles }
-  let(:payload) { {where: @where, order: @order, page_number: @page_number, page_size: @page_size} }
 
+  # at the time the service just call ManagerQueryArticles
   it {
     # there are no plugins implemented at the moment
     # so its behaviour should be stubbded and mocked

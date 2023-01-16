@@ -27,30 +27,37 @@ MustbeOrderStatus = Sentry.new(:key, "must be new|submitted|accepted|canceled"
 ) {|v| %w|new submitted accepted canceled|.include?(v) }
 
 # must be Order_articles, it must be array of hashes with keys id: nil, title:, description:, price:, removed_at:
-msg = "must be Array<Hash> with required (title, description, price) and optional (id) keys"
+msg = "must be Array<Hash> with (article_id, quantity, price) keys"
 MustbeOrderArticles = Sentry.new(:key, msg) {|v|
-  req = %w|title price description|
-  opt = %w|id|
-  v.is_a?(Array) && v.all?{|e|
-    # hash && all required presented && only required and optonal
-    e.is_a?(Hash) &&
-    (req - e.keys == []) &&
-    (e.keys - req - opt == [])
+  req = %w|article_id quantity price|
+  v.is_a?(Array) && v.any? && v.all?{|e|
+    e.is_a?(Hash) && req - e.keys == []
   }
 }
+#   req = %w|title price description|
+#   opt = %w|id|
+#   v.is_a?(Array) && v.all?{|e|
+#     # hash && all required presented && only required and optonal
+#     e.is_a?(Hash) &&
+#     (req - e.keys == []) &&
+#     (e.keys - req - opt == [])
+#   }
+# }
 
 # must be Array
-MustbeArray = Sentry.new(:key, "must be Array"
-) {|v| v.is_a?(Array)}
+MustbeArray = Sentry.new(:key, "must be Array") {|v| v.is_a?(Array)}
 
 # must be Hash
-MustbeHash = Sentry.new(:key, "must be Hash"
-) {|v| v.is_a?(Hash)}
+MustbeHash = Sentry.new(:key, "must be Hash") {|v| v.is_a?(Hash)}
 
 # must be Page_number
-MustbePageNumber = Sentry.new(:key, "must be Integer >= 0"
+MustbePageNumber = Sentry.new(:page_number, "must be Integer >= 0"
 ) {|v| v.is_a?(Integer) && v >= 0}
 
 # must be Page_size
-MustbePageSize = Sentry.new(:key, "must be Integer > 0"
+MustbePageSize = Sentry.new(:page_size, "must be Integer > 0"
+) {|v| v.is_a?(Integer) && v > 0}
+
+# must be positive integer
+MustbeQuantity = Sentry.new(:quantity, "must be positive Integer"
 ) {|v| v.is_a?(Integer) && v > 0}

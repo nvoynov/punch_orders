@@ -1,20 +1,24 @@
 # MD5 4f2aca66afd85547f4b09c97826e1f50
 # see https://github.com/nvoynov/punch
 # frozen_string_literal: true
-require_relative "../basics"
+require_relative "service"
 
 module Orders
   module Services
-    # 
+
     class ManagerCancelOder < Service
 
       def initialize(order_id:)
-        @order_id = MustbeUuid.(order_id)
+        @order_id = MustbeUUID.(order_id)
       end
 
       def call
-        # user = storage.find(User, email: @email)
-        fail "#{self.class}#call UNDER CONSTRUCTION"
+        order = store.get(Order, @order_id)
+        fail Failure, "Order not found id: #{@order_id}" unless order
+        return order if order.canceled?
+
+        arg = order.clone_with(status: 'canceled', status_at: Time.now)
+        store.put(arg)
       end
     end
 

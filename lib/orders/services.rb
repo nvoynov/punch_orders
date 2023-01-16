@@ -1,3 +1,4 @@
+require_relative "services/service"
 require_relative "services/user_query_articles"
 require_relative "services/user_query_orders"
 require_relative "services/user_create_order"
