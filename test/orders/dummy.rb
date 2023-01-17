@@ -59,14 +59,16 @@ module Dummy
     { 'title' => title, 'description' => descr, 'price' => price }
   end
 
-  def punch_order(user, status = 'new', articles = [])
-    articles = [druby_book, redis_book, mongo_book] unless articles.any?
+  def punch_order(user, status = 'new')
+    arts = articles.map{|art|
+      OrderItem.new(art, 1, art.price)
+    }
     Order.new(
       user: user,
       created_at: Time.now,
       status: status,
       status_at: Time.now,
-      articles: articles
+      articles: arts
     )
   end
 end

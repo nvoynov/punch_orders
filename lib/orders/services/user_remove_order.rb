@@ -17,7 +17,7 @@ module Orders
         fail Failure, "Unknown user id #{@user_id}" unless user
         order = store.get(Order, @order_id)
         fail Failure, "Unknown order id #{@order_id}" unless order
-        fail Failure, "Order belongs to another user" unless order.user_id == @user_id
+        fail Failure, "Order belongs to another user" unless order.created_by == @user_id
         store.rm(Order, id: @order_id)
       end
     end

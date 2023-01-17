@@ -18,7 +18,7 @@ module Orders
 
         order = store.get(Order, @order_id)
         fail Failure, "Unknown order id #{@order_id}" unless order
-        fail Failure, "Order belongs to another user" unless order.user_id == @user_id
+        fail Failure, "Order belongs to another user" unless order.created_by == @user_id
         arg = order.clone_with(status: "submitted", status_at: Time.now)
         store.put(arg)
       end

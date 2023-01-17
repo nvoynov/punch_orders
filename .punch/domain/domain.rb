@@ -27,23 +27,23 @@ def build_domain
 
     plugin :store, 'Orders Store'
 
+    service :query_articles do
+      param :where, :sentry => :array
+      param :order, :sentry => :hash
+      param :page_number, :sentry => :page_number
+      param :page_size, :sentry => :page_size
+    end
+
+    service :query_orders do
+      param :where, :sentry => :array
+      param :order, :sentry => :hash
+      param :page_number, :sentry => :page_number
+      param :page_size, :sentry => :page_size
+    end
+
     actor :user do
-      service :query_articles do
-        param :where, :sentry => :array
-        param :order, :sentry => :hash
-        param :page_number, :sentry => :page_number
-        param :page_size, :sentry => :page_size
-      end
-
-      service :query_orders do
-        param :where, :sentry => :array
-        param :order, :sentry => :hash
-        param :page_number, :sentry => :page_number
-        param :page_size, :sentry => :page_size
-      end
-
       service :create_order do
-        param :created_by, :sentry => :uuid
+        param :user_id, :sentry => :uuid
         param :articles, :sentry => :order_articles
       end
 
@@ -59,20 +59,6 @@ def build_domain
     end
 
     actor :manager do
-      service :query_articles do
-        param :where, :sentry => :array
-        param :order, :sentry => :hash
-        param :page_number, :sentry => :page_number
-        param :page_size, :sentry => :page_size
-      end
-
-      service :query_orders do
-        param :where, :sentry => :array
-        param :order, :sentry => :hash
-        param :page_number, :sentry => :page_number
-        param :page_size, :sentry => :page_size
-      end
-
       service :create_article do
         param :title, :sentry => :title
         param :description, :sentry => :description
@@ -90,14 +76,13 @@ def build_domain
         param :article_id, :sentry => :uuid
       end
 
-      service :accept_oder do
+      service :accept_order do
         param :order_id, :sentry => :uuid
       end
 
-      service :cancel_oder do
+      service :cancel_order do
         param :order_id, :sentry => :uuid
       end
-
     end
   end
 end

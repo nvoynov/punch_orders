@@ -9,7 +9,7 @@ module Orders
     # Basic storage interface that stores everything respond to :id
     class Store
       extend Plugin
-      
+
       Failure = Class.new(StandardError)
 
       def self.inherited(klass)
@@ -22,7 +22,7 @@ module Orders
       # @return [Object] stored object
       # @todo how about putting multiple objects at once
       def put(object)
-        fail "#{self.class}#put(klass, id) must be overridden"
+        fail "#{self.class}#put(object) must be overridden"
       end
 
       # Return klass object by id
@@ -74,8 +74,8 @@ module Orders
       # @param offset [Integer] number of items to skip before select
       # @return [Array<objects>, Hash<metadata>] where metadata is
       #   about navigation and provide :first, :prev, :next, :last
-      def q(klass, where: [], order: {}, page_number: 0, page_size: 50)
-        fail "#{self.class}.#q(klass, where:, order:, page_number:, page_size:) must be overridden"
+      def q(klass, where: [], order: {}, limit: 0, offset: 50)
+        fail "#{self.class}.#q(klass, where:, order:, limit:, offset:) must be overridden"
       end
     end
   end

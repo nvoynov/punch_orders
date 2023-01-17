@@ -3,10 +3,9 @@
 require_relative "../../test_helper"
 include Orders::Services
 
-describe UserQueryArticles do
-  let(:service) { UserQueryArticles }
+describe QueryArticles do
+  let(:service) { QueryArticles }
 
-  # at the time the service just call ManagerQueryArticles
   it {
     # there are no plugins implemented at the moment
     # so its behaviour should be stubbded and mocked

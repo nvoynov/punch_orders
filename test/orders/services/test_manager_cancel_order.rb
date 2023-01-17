@@ -4,8 +4,8 @@ require_relative "../../test_helper"
 require_relative "../dummy"
 include Orders::Services
 
-describe ManagerCancelOder do
-  let(:service) { ManagerCancelOder }
+describe ManagerCancelOrder do
+  let(:service) { ManagerCancelOrder }
   let(:order)   { Dummy.john_order }
   let(:payload) { {order_id: order.id} }
 

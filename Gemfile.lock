@@ -3,11 +3,25 @@ PATH
   specs:
     punch (0.6.1)
 
+PATH
+  remote: C:/Users/User/Documents/ruby/ranch
+  specs:
+    ranch (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
     minitest (5.17.0)
+    rack (3.0.3)
+    rack-session (0.3.0)
+      rack (>= 3.0.0.beta1)
+    rack-test (2.0.2)
+      rack (>= 1.3)
+    rackup (0.2.3)
+      rack (>= 3.0.0.beta1)
+      webrick
     rake (13.0.6)
+    webrick (1.7.0)
 
 PLATFORMS
   x64-mingw32
@@ -15,7 +29,12 @@ PLATFORMS
 DEPENDENCIES
   minitest
   punch!
+  rack
+  rack-session
+  rack-test
+  rackup
   rake
+  ranch!
 
 BUNDLED WITH
    2.4.1

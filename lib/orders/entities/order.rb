@@ -16,10 +16,10 @@ module Orders
     # OrderItem Value, NOT Entity, does not have Id!
     class OrderItem
       extend Forwardable
-      def_delegator @article, :id, :article_id
-      def_delegators @article, :title, :description
+      def_delegator :@article, :id, :article_id
+      def_delegators :@article, :title, :description
 
-      attr_reader :article
+      # attr_reader :article
       attr_reader :quantity
       attr_reader :price
 
@@ -32,7 +32,7 @@ module Orders
 
     class Order < Entity
       extend Forwardable
-      def_delegator :@user, :id, :user_id
+      def_delegator :@user, :id, :created_by
       def_delegator :@user, :name, :user_name
 
       # @return [User] Order Created By

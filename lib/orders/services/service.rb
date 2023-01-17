@@ -4,6 +4,7 @@ require_relative "../config"
 require_relative "../sentries"
 require_relative "../entities"
 require "forwardable"
+include Orders::Entities
 
 module Orders
   module Services

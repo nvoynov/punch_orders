@@ -6,7 +6,7 @@ require_relative "service"
 module Orders
   module Services
 
-    class ManagerAcceptOder < Service
+    class ManagerAcceptOrder < Service
 
       def initialize(order_id:)
         @order_id = MustbeUUID.(order_id)
