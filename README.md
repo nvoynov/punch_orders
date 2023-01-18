@@ -1,17 +1,18 @@
 % Punch Orders
 
+# Github.io
+
+- remove "Cleon, first evaluation"
+- remove "Cleon" mentioned in "Algorithms + .."
+- create "Punch Code Generator"
+- create "Marko Markup Compiler"
+- create "How I can help you"
+
 # TODO
 
 git log --pretty=oneline
 git reset --soft HEAD~n
 git reset --soft HEAD^1
-
-- `Store.q` with `page_number, page_size` BUT `InMemoryStore.q` with `limit, offset` .. BUT IRB seems to work, but require to
-  require "./lib/orders"
-  require "./app/faces/ruby" TO GET Response class!!!!
-
-- `Ranch`
-  - [ ] move `Presenter` to gadgets
 
 QueryService
 

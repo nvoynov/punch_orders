@@ -1,7 +1,7 @@
 # create starter data
 
 require "bigdecimal/util"
-require "./lib/orders"
+require_relative "conf"
 include Orders::Services
 
 store = StoreHolder.object

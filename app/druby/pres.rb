@@ -1,20 +1,17 @@
-require_relative "gadgets"
-require_relative "config"
-
-require "./lib/orders"
+require_relative "conf"
 include Orders::Entities
 
 class ArticlePresenter < Presenter
   present Article
-  attributes :title, :description, :price
+  properties :title, :description, :price
 end
 
 class OrderPresenter < Presenter
   present Order
-  attributes :created_by, :created_at, :user_name, :status, :status_at
+  properties :created_by, :created_at, :user_name, :status, :status_at
   collection :articles, :article_id, :title, :quantity, :price
 end
 
-roster = PresentersHolder.roster
+roster = DecorHolder.object
 roster << ArticlePresenter
 roster << OrderPresenter
