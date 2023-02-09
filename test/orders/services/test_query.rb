@@ -1,9 +1,9 @@
 require_relative "../../test_helper"
-include Orders::Services
+# include Orders::Services
 
-describe Query do
+describe 'Query' do
   let(:dummy) {
-    Class.new(Query) do
+    Class.new(Orders::Services::Query) do
       def subject
         Object
       end

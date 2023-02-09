@@ -12,7 +12,7 @@ describe Order do
 
   describe OrderItem do
     it {
-      item = OrderItem.new(articles.first, 1, 99)
+      item = OrderItem.new(article: articles.first, quantity: 1, price: 99)
       assert_respond_to item, :article_id
     }
   end
@@ -23,8 +23,8 @@ describe Order do
       status: "new",
       status_at: Time.now,
       articles: [
-        OrderItem.new(articles[0], 1, 9.99),
-        OrderItem.new(articles[1], 1, 9.99),
+        OrderItem.new(article: articles[0], quantity: 1, price: 9.99),
+        OrderItem.new(article: articles[1], quantity: 1, price: 9.99),
       ]
     )
   }

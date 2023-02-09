@@ -23,10 +23,14 @@ module Orders
       attr_reader :quantity
       attr_reader :price
 
-      def initialize(article, quantity, price)
+      def initialize(article:, quantity:, price:)
         @article = MustbeArticle.(article)
         @quantity = MustbeQuantity.(quantity)
         @price = MustbeMoney.(price)
+      end
+
+      def total
+        @total ||= price.to_d * quantity.to_d
       end
     end
 
@@ -57,6 +61,10 @@ module Orders
         @status = MustbeOrderStatus.(status)
         @status_at = MustbeTimestamp.(status_at)
         @articles = articles # MustbeOrderArticles.(articles)
+      end
+
+      def total
+        @total ||= @articles.map(&:total).sum
       end
 
       def accepted?

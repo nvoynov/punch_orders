@@ -3,8 +3,10 @@ require_relative "../basics"
 require_relative "../config"
 require_relative "../sentries"
 require_relative "../entities"
+require_relative "../builders"
 require "forwardable"
 include Orders::Entities
+include Orders::Builders
 
 module Orders
   module Services

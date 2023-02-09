@@ -1,10 +1,7 @@
-require "ranch"
 require "./lib/orders"
-include Ranch
+require "runch"
 
-class DecorRoster < PresenterRoster
-  extend Plugin
-end
-
-StoreHolder.plugin InMemoryStore
-DecorHolder = DecorRoster.plugin
+StoreHolder.plugin Runch::InMemoryStore
+# require "./db/postgresql/postgresql"
+# PostgreSql.extend(Plugin)
+# StoreHolder.plugin PostgreSql

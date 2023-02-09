@@ -24,20 +24,30 @@ module Face
 
   protected
 
-  # Face result wrapper
-  Response = Struct.new(:data, :meta, :error, keyword_init: true)
-
-  # response helper
   def respond(data: nil, meta: nil, error: nil)
     fail "service must repond with :data ^ :error" unless data.nil? ^ error.nil?
-    Response.new(data: data, meta: meta, error: error).freeze
+    {}.tap{|res|
+      res.store("data", data) if data
+      res.store("meta", meta) if meta
+      res.store("error", error) if error
+    }.freeze
+  end
+
+  def present(obj)
+    presenters = DecorHolder.object
+    return obj.map{present(_1)} if obj.is_a?(Array)
+    presenters.(obj).(obj)
   end
 
   def secure_call &block
-    respond(data: yield)
+    data, meta = yield
+    respond(data: present(data), meta: meta)
   rescue ArgumentError, Service::Failure, Store::Failure => e
     logger.error e
-    respond(error: e)
+    respond(error: "(#{e.class}) #{e.message}")
+  rescue => e
+    logger.error e.full_message
+    raise $!
   end
 
   def logger

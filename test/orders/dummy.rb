@@ -61,7 +61,7 @@ module Dummy
 
   def punch_order(user, status = 'new')
     arts = articles.map{|art|
-      OrderItem.new(art, 1, art.price)
+      OrderItem.new(article: art, quantity: 1, price: art.price)
     }
     Order.new(
       user: user,
