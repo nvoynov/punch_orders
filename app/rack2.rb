@@ -1,0 +1,5 @@
+require_relative 'rack2/auth'
+require_relative 'rack2/face2'
+require_relative 'rack2/config'
+require_relative 'rack2/filters'
+require_relative 'extras/seed'

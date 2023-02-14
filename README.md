@@ -67,6 +67,7 @@ The Orders Domain provides the following faces:
 
 - dRuby
 - Rack
+- Rack face as pipeline of "authorize > produce > present"
 - Bunny
 
 Every Face:
@@ -81,6 +82,8 @@ Basically, every Face will consist of
 - front object stand for controller
 - set of proxy domain services
 - set of presenters for domain entities
+
+> `app/rack2` changes those structure for pipeline of filters: Authorize >> Process >> Present
 
 ## Controller
 
