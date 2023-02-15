@@ -75,41 +75,37 @@ Every Face:
 - uses InMemoryStore implementation of Store Plugin
 - uses shared set of entities presenters as JSON
 
-## Face Design
+## Design
 
 Basically, every Face will consist of
 
-- front object stand for controller
-- set of proxy domain services
+- front object (stands for controller)
+- set of actions to call domain services
 - set of presenters for domain entities
 
-> `app/rack2` changes those structure for pipeline of filters: Authorize >> Process >> Present
+> the last `app/rack2` utilize the straight pipeline of filters: Authorize >> Process >> Present
 
 ## Controller
 
 A front object exists in a particular environment and provides request-response cycle:
 
 - get an actor's request from the environment
-- locate domain service in accordance with the request
-- translate request parameters from the environment into the domain
-- call the located service
-- translate the service response back into environment
-- and finally, return the response to the actor.
+- locate and then call requested domain service, adopting the service parameters from the environment
+- translate the service response back into the environment and return the translated response to the actor.
 
 ## Action
 
-Action there is a good abstraction for proxying service calls from environment requests. The Action class extend basic Proxy class. Where
+An action locates requested domain service and translates provided parameters from the environment into the domain.
 
-- `Proxy` provides the ability to adopt a domain service by translating the service arguments from an environment presentation, and translating the service response back into the environment.
-- `Action` implements the `arguments translation` and provides mechanism for domain service location.
+I started from a `Proxy` class that just wrap domain service call with arguments translation. And every actions inherited an particular domain service held domain parameters translation logic.
 
-The `Actions` module creates actions for all domain services available and implements the action location mechanism.
-
-> Designed actions that way, when one adds, modifies, or removes domain services - there are no changes in `Actions` module required. So designed once it will serve right for other apps with little or no changes - it's sort of "generic" interface for any particular face tech (Rack, dRuby, Bunny)
+Later in `app/rack2` I abandoned the action in favor of the pipeline of `authorize >> produce >> present`
 
 ## Presenter
 
-Presenter just presents an domain entity in the face environment. It should use only general objects types like strings, numbers, arrays, and hashes. That way it will be "naturally portable" for any environment.
+Presenter just presents an domain service response in the face environment. It should use only general objects types like strings, numbers, arrays, and hashes. That way it will be "naturally portable" for any environment.
+
+A presenter actually presents domain entities, collections of domain entities, can casually some sort of metadata like `links` key for collections.
 
 > All one could need there is Ruby Hash of strings, numbers, and arrays. It could be easily translated into JSON or like.
 
@@ -117,9 +113,7 @@ Presenter just presents an domain entity in the face environment. It should use 
 
 Querying big collection might cause sort of excessive service load and increase response time, so "face" should prevent such things by limiting number of record to return.
 
-I chosen to provide a separate basic service for querying entities that provides `filter`, `order`, `page_number`, and `page_size` input parameters; and this returns the queried collection with a meta information is there more entities indide the store for `page_number`, `page_size`.
-
-> Designed basic query that way, it will still the same for all collections - the only thing that changed is Entity to query!
+I chosen to provide a separate basic service for querying entities that provides `where`, `order`, `page_number`, and `page_size` input parameters; and this returns the queried collection with a meta information "is there more entities inside the store for `page_number`, `page_size`".
 
 ## Store Plugins
 
@@ -128,17 +122,15 @@ Store Plugin implemented as InMemoryStore which holds entities in memory as PORO
 - provides basic immutability by deep_dup from Rails
 - and locking mechanism based on MonitorMixin.
 
-At the moment, this InMemoryStore implemented in a separate gem, that is not presented here. But such thing actually is easy do design.
+At the moment, this InMemoryStore implemented in a separate gem, that is not presented here. But such thing actually is easy do design oneself.
 
-> Why InMemory? That way one could start clean without introducing dependence from storage technology at the beginning. It will serve perfectly for tests, could serve for MVP, etc. It will save one's time staying on PORO.
+> Why InMemory? That way one could start clean without introducing any dependencies from storage technology at the beginning. It will serve perfectly for tests, could serve for MVP, etc. It will save one's time staying on PORO.
 
-Other store implementations should be designed from the domain, where plugin implementation depends on the domain, NOT domain depends on store implementation!
-
-Actually there should be just general store implementation, that translates entities into storage presentation by using `mappers` and construct entities from the storage using `builders`. Besides, those `mappers` will be very similar to presenters and `builders` could be adopted from existed already entities builders. That would be sort of Object-Relation-Mapper for SQL.
+Later I designed the Store implementation for PostgreSQL database using Sequel gem. It's quite interesting and resembles sort of simplified ORM utilizing entities mappers and builders.
 
 # Design Steps
 
-At the beginning this repository was created using [Punch]() and the domain was designed by `Punch::DSL` in terms of Actors, Entities, and Services. Having the domain designed, all its source skeletons were generated by `PunchDomain` service.
+At the beginning this repository was created using [Punch](https://github.com/nvoynov/punch) and the domain was designed using `Punch::DSL` in terms of Actors, Entities, and Services. Having the domain designed, all its source skeletons were generated by `PunchDomain` service.
 
 The next step was manual design of the domain business logic with unit tests. In this process the store interface was established.
 
@@ -146,6 +138,6 @@ The following step was design particular faces - dRuby, Rack, and Bunny. At the 
 
 From the beginning I had InMemoryStore implementation, but it was connected only when I was testing face implementations calling for particular domain services.
 
-And finally, I designed PostgreSQL Store interface with Sequel, where entities collections are storing as PostgreSQL Arrays and JSONB. Database schema wad generated based on mappers using `#ddl` method.
+And finally, I designed PostgreSQL Store that stores entities in separate tables and entity value object collections inside the entity table as PostgreSQL Arrays of JSONB. Database schema wad generated based on mappers using `#ddl` method.
 
 The decision to postpone database design for the last thing was the right one.

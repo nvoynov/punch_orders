@@ -1,18 +1,4 @@
-% Architecture Exercise
-
-Step out a bit from the Clean Architecture and try different architecture technics
-
-# Layered, Services, ..?
-
-What is me services layer of services and entities? It's business logic layer that uses plugins for storing data.
-
-In case of RabbitMQ, is it Messaging Layer?
-
-# Services?
-
-# Architecture styles
-
-## Pipeline
+% Pipeline
 
 (also known as the pipes and filters architecture). As soon as developers and architects decided to split functionality into discrete parts, this pattern followed.
 
@@ -28,12 +14,3 @@ Four types of filters exist within this architecture style:
 - **Transformer** Accepts input, optionally performs a transformation on some or all of the data, then forwards it to the outbound pipe. Functional advocates will recognize this feature as map.
 - **Tester** Accepts input, tests one or more criteria, then optionally produces output, based on the test. Functional programmers will recognize this as similar to reduce.
 - **Consumer** The termination point for the pipeline flow. Consumers sometimes persist the final result of the pipeline process to a database, or they may display the final results on a user interface screen.
-
-
-# Face
-
-`face.rb` actually does a lot of work. It accepts requests, locates and calls domain service, present the service call result. But maybe it should be redesigned into filters that do just one thing - accept, locate, call, present?
-
-In case of RabbitMQ "respond" to queue might be added.
-
-Rack Middleware is rather for HTTP, not for locate, call, present. But "controller" should be certainly split into call domain service, present result  
